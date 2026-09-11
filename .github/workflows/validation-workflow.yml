@@ -1,0 +1,20 @@
+name: Validate YAML reader change
+on:
+  push:
+    branches: [codex/validate-yaml-reader]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: fcc4dd12f7f2a8e0d6c55514e56e525030d355fc
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e
+        with:
+          go-version-file: go.mod
+      - run: make native-test
+      - run: make lint
